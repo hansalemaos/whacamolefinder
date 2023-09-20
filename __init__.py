@@ -120,6 +120,8 @@ class WhacAMoleFinder:
     Attributes:
         screenshotiter (generator): The iterator supplying screenshots.
         stop (bool): A flag to control the comparison process. Set to True to stop comparing.
+        last_screenshot
+        before_last_screenshot
 
     Methods:
         start_comparing: Begin the image comparison process and yield results.
@@ -159,6 +161,8 @@ class WhacAMoleFinder:
             print(di)
             if ini > 100:
             piit.stop = True
+            print(piitlast_screenshot)
+            print(piitbefore_last_screenshot)
 
     #You can compare 2 images without using the class:
     # Call the get_difference_of_2_pics function to compare the two images
@@ -178,6 +182,8 @@ class WhacAMoleFinder:
     def __init__(self, screenshotiter):
         self.screenshotiter = screenshotiter
         self.stop = False
+        self.last_screenshot = None
+        self.before_last_screenshot = None
 
     def start_comparing(
         self,
@@ -213,6 +219,8 @@ class WhacAMoleFinder:
         outpic = pic1.copy()
         while not self.stop:
             pic2 = next(screenshotiter)
+            self.last_screenshot = pic2
+            self.before_last_screenshot = pic1
 
             allresults, out = get_difference_of_2_pics(
                 pic1=pic1.copy(),
